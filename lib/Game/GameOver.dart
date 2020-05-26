@@ -17,7 +17,7 @@ class _GameOverState extends State<GameOver> {
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context);
     return StreamBuilder<UserData>(
-        stream: DatabaseService(uid: user.uid).userData,
+    stream: DatabaseService(uid: user.uid).userData,
     builder: (context, snapshot) {
     if (snapshot.hasData) {
     UserData userData = snapshot.data;

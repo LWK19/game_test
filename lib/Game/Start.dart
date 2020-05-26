@@ -29,11 +29,11 @@ class _StartState extends State<Start> {
 
     final user = Provider.of<FirebaseUser>(context);
     List leaderboard = [{'username':'','len':0},{'username':'','len':0},{'username':'','len':0},{'username':'','len':0},{'username':'','len':0},{'username':'','len':0},{'username':'','len':0},{'username':'','len':0},{'username':'','len':0},{'username':'','len':0}];
+    
     Firestore.instance.collection('data').snapshots().listen((data) =>
         data.documents.forEach((doc) =>
-            leaderboard.add({'username': doc['username'], 'len': doc["zbest"].length})
+          Lead().lead(leaderboard, doc, user)
         ));
-
     return isGameOver? GameOver() : Scaffold(
         appBar: AppBar(
           leading: Builder(
@@ -459,5 +459,28 @@ class _StartState extends State<Start> {
           child: Icon(Icons.call),
       ),
     );
+  }
+}
+
+class Lead {
+  bool ch = true;
+  lead(List leaderboard, doc, user){
+//    if (doc["zbest"] == null){
+//      if (doc["username"] == null){
+//        DatabaseService(uid: user.uid).updateUserData(doc['money'], doc['hunger'], doc['zhistory'], [], 'noname');
+//      }else{
+//        DatabaseService(uid: user.uid).updateUserData(doc['money'], doc['hunger'], doc['zhistory'], [], doc['username']);
+//      }
+//    }
+  for (int i=0; i < leaderboard.length; i++){
+    for (var key in leaderboard[i].values) {
+        if (doc['username'] == key){
+          ch = false;
+      }
+    }
+  }
+  if (ch){
+    leaderboard.add({'username': doc['username'], 'len': doc["zbest"].length});
+  }
   }
 }
